@@ -26,9 +26,16 @@ h1{
 }
 
 #snake {
+    display: none;
     position: absolute;
-    width:30px;
-    height: 30px;
+    width: 28px;
+    height: 28px;
     background-color: green;
-
+}
+#bouffe {
+    display: none;
+    position: absolute;
+    width: 28px;
+    height: 28px;
+    background-color: red;
 }
