@@ -1,6 +1,6 @@
 *{
     text-align: center;
-    background-color: gray;
+    background-color:white;
 }
 h1{
     font-size: 40px;
@@ -9,9 +9,10 @@ h1{
     margin-top: 15px;
     font-family: 'Roboto', sans-serif;
     font-weight: 300;
+    text-shadow: 5px, 2px, 2px, black;
 }
 .buttons-div > button{
-    background-color: rgba(255, 255, 255, 0.6);
+    background-color: grey;
     font-family: 'Roboto', sans-serif;
     font-size: 18px;
     padding: 10px;
@@ -20,4 +21,5 @@ h1{
     margin: 20px;
     font-weight: 300;
     outline: none;
+    box-shadow:5px, 2px, 2px, black;
 }
