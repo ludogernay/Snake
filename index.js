@@ -1,5 +1,5 @@
 const canvas = document.querySelector("#gamefield")
-const ctx = canvas.getContext("2d")
+const ctx = canvas.getContext("2d");
 
 const cellSize = 30; // taille d'une cellule en pixels
 const rows = 15; // nombre de lignes
@@ -10,6 +10,7 @@ ctx.strokeStyle = '#000000'; // couleur par défaut des bordures
 
 // mettre à jour la largeur du canvas en fonction du nombre de colonnes
 canvas.width = cols * cellSize;
+canvas.height = rows * cellSize;
 
 // dessiner les bordures de chaque cellule de la grille
 for (let i = 0; i < rows; i++) {
