@@ -2,8 +2,12 @@ const canvas = document.querySelector("#gamefield")
 const ctx = canvas.getContext("2d");
 
 const cellSize = 30; // taille d'une cellule en pixels
+
 const rows = 15; // nombre de lignes
+
 let cols = 30; // nombre de colonnes
+
+let snake = [ {x: 10 , y: 10},{x: 9, y: 10},{x: 8 , y: 10} ];
 
 ctx.lineWidth = 0,5; // épaisseur par défaut des bordures
 ctx.strokeStyle = '#000000'; // couleur par défaut des bordures
@@ -26,3 +30,32 @@ for (let i = 0; i < rows; i++) {
       ctx.strokeRect(j * cellSize, i * cellSize, cellSize, cellSize);
   }
 }
+
+function drawSnake(){
+  //Efface le canvas
+  ctx.clearRect(0,0,canvas.width,canvas.height)
+
+  //Dessiner le serpent
+  for (let i=0 ; snake.length ; i++){
+    let x = snake[i].x * cellSize;
+    let y = snake[i].y * cellSize;
+
+    // Dessiner le rectangle
+    context.fillStyle = 'green';
+    context.fillRect(x, y, cellSize, cellSize);
+  }
+
+}
+
+function updateSnake() {
+  // Code pour mettre à jour les coordonnées du serpent
+
+  // Dessiner le serpent sur le canvas
+  drawSnake();
+
+  // Demander une nouvelle frame d'animation
+  requestAnimationFrame(updateSnake);
+}
+
+// Démarrer l'animation
+requestAnimationFrame(updateSnake);
