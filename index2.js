@@ -1,11 +1,15 @@
 var snake = document.getElementById('snake');
+var score = document.querySelector('.score');
+var restart = document.getElementById('Restart');
+
+var cpt = 0;
+score.innerHTML = `Score : ${cpt}`;
 var x = 620.35;
 var y = 203;
 var dx = 0;
 var dy = 0;
-var isKeyPressed = false;
+var startIsPressed = false;
 document.onkeydown = function (event) {
-    isKeyPressed = true;
     console.log(event.key);
     switch (event.key) {
         case 'ArrowLeft':
@@ -43,22 +47,42 @@ function moveSnake() {
         snake.style.top = y + 'px';
         if (x == bouffeRect.left.toFixed(2) && y == bouffeRect.top) {
             bouffe.style.display = 'none';
+            cpt++;
+            score.innerHTML = `Score : ${cpt}`;
             console.log('je mange la bouffe !');
         }
     }
 }
 function spawnBouffe() {
-    var bouffe = document.getElementById('bouffe');
-    bouffe.style.left = (Math.floor(Math.random() * (811/30)) * 30 + 320.35).toFixed(2) + 'px';
-    bouffe.style.top = Math.floor(Math.random() * (360/30)) * 30 + 113 + 'px';
-    bouffe.style.display = 'block';
-    var bouffeRect = bouffe.getBoundingClientRect();
-    console.log("position de la bouffe : " + bouffeRect.left.toFixed(2) + " " + bouffeRect.top);
+    if (startIsPressed) {
+        var bouffe = document.getElementById('bouffe');
+        bouffe.style.left = (Math.floor(Math.random() * (811/30)) * 30 + 320.35).toFixed(2) + 'px';
+        bouffe.style.top = Math.floor(Math.random() * (360/30)) * 30 + 113 + 'px';
+        bouffe.style.display = 'block';
+        var bouffeRect = bouffe.getBoundingClientRect();
+        console.log("position de la bouffe : " + bouffeRect.left.toFixed(2) + " " + bouffeRect.top);  
+    }
 }
 setInterval(function () {
-    if (isKeyPressed) {
+    if (startIsPressed) {
         snake.style.display = 'block';
         moveSnake();
     }
 }, 120);
+
 setInterval(spawnBouffe, 5000);
+
+
+//recupere le clic sur le bouton start
+var start = document.getElementById('Start');
+start.addEventListener('click', function () {
+    dx = 30;
+    dy = 0;
+    startIsPressed = true;
+    start.style.display = 'none';
+});
+//recupere le clic sur le bouton restart
+restart.addEventListener('click', function () {
+    //recharger la page
+    location.reload();
+});
