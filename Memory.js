@@ -2,6 +2,7 @@ var start = document.getElementById('Start');
 var restart = document.getElementById('Restart');
 const canvas = document.querySelector("#gamefield");
 const ctx = canvas.getContext("2d");
+const canvascontainer = document.getElementById("canvas-container");
 
 let listeLegumes = ["courgette", "carotte", "patate", "tomate", "potimarron", "bettrave", "choux", "celeri", "salade", "aubergine", "poivron", "cocombre", , "poireau", "asperge", "haricot"];
 let listeLegumesJeu = new Array(30);
@@ -68,8 +69,8 @@ function startGame() {
           div.id = 'div'+i;
           div.setAttribute('data-legumes',listeLegumesJeu[i]);
           div.style.position = 'absolute';
-          div.style.left = canvas.offsetLeft + (i*100) + 'px';
-          div.style.top = canvas.offsetTop + (i*100) + 'px';
+          div.style.left = canvascontainer.offsetLeft + (i*100) + 'px';
+          div.style.top = canvascontainer.offsetTop + (i*100) + 'px';
           div.addEventListener('click',function(){
             console.log('La div a été cliqué');
           });
