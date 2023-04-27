@@ -1,0 +1,47 @@
+*{
+    text-align: center;
+    background-color:white;
+}
+
+h1{
+    font-size: 40px;
+    color: orangered;
+    margin: 0px;
+    margin-top: 15px;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 300;
+    text-shadow: 5px, 2px, 2px, black;
+}
+
+.buttons-div > button{
+    background-color: grey;
+    font-family: 'Roboto', sans-serif;
+    font-size: 18px;
+    padding: 10px;
+    border: none;
+    border-radius: 10px;
+    margin: 20px;
+    font-weight: 300;
+    outline: none;
+    box-shadow:5px, 2px, 2px, black;
+}
+
+.canvas-center {
+    width: 100%;
+    height: 100vh;
+    position: relative;
+  }
+  
+#gamefield {
+    position: absolute;
+    top: 5%;
+    left: 30%;
+  }
+
+  .hidden-card{
+    display:none;
+  }
+
+  .reveal-card{
+    display:block;
+  }
