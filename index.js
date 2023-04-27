@@ -1,6 +1,18 @@
 const canvas = document.querySelector("#gamefield")
 const ctx = canvas.getContext("2d");
 
+var start = document.getElementById('Start');
+
+start.addEventListener('click', function () {
+    startIsPressed = true;
+    start.style.display = 'none';
+});
+//recupere le clic sur le bouton restart
+restart.addEventListener('click', function () {
+    //recharger la page
+    location.reload();
+});
+
 const cellSize = 30; // taille d'une cellule en pixels
 
 const rows = 15; // nombre de lignes
@@ -33,7 +45,7 @@ for (let i = 0; i < rows; i++) {
 
 function drawSnake(){
   //Efface le canvas
-  ctx.clearRect(0,0,canvas.width,canvas.height)
+  //ctx.clearRect(0,0,canvas.width,canvas.height)
 
   //Dessiner le serpent
   for (let i=0 ; snake.length ; i++){
@@ -41,8 +53,8 @@ function drawSnake(){
     let y = snake[i].y * cellSize;
 
     // Dessiner le rectangle
-    context.fillStyle = 'green';
-    context.fillRect(x, y, cellSize, cellSize);
+    ctx.fillStyle = 'green';
+    ctx.fillRect(x, y, cellSize, cellSize);
   }
 
 }

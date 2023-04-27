@@ -37,7 +37,7 @@ document.onkeydown = function (event) {
 
 function moveSnake() {
     var bouffeRect = bouffe.getBoundingClientRect();
-    if (x < 320.35 || x > 1130.35 || y < 113 || y > 473) {
+    if (x < 320.35 || x > 1130.35 || y < 113 || y > 473) { // si le serpent est en dehors du terrain (mort) sinon déplacer le serpent
         console.log("dead");
     } else {
 
@@ -45,16 +45,17 @@ function moveSnake() {
         y += dy;
         snake.style.left = x + 'px';
         snake.style.top = y + 'px';
-        if (x == bouffeRect.left.toFixed(2) && y == bouffeRect.top) {
+        if (x == bouffeRect.left.toFixed(2) && y == bouffeRect.top) { // si la position du snake est égale a celle de la nourriture
             bouffe.style.display = 'none';
             cpt++;
             score.innerHTML = `Score : ${cpt}`;
             console.log('je mange la bouffe !');
+            // Création d'un élément snake pour allonger le serpent
         }
     }
 }
 function spawnBouffe() {
-    if (startIsPressed) {
+    if (startIsPressed) { // fais apparaitre de la nourriture aléatoirement dans les limites du terrain
         var bouffe = document.getElementById('bouffe');
         bouffe.style.left = (Math.floor(Math.random() * (811/30)) * 30 + 320.35).toFixed(2) + 'px';
         bouffe.style.top = Math.floor(Math.random() * (360/30)) * 30 + 113 + 'px';
@@ -70,7 +71,7 @@ setInterval(function () {
     }
 }, 120);
 
-setInterval(spawnBouffe, 5000);
+setInterval(spawnBouffe, 5000); // 5 secondes d'intervalles avant la disparition puis l'apparition de la nourriture
 
 
 //recupere le clic sur le bouton start
