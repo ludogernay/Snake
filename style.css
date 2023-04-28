@@ -38,15 +38,6 @@ h1{
     left: 30%;
   }
 
-  .hidden-card{
-    display:none;
-    width: 100px;
-    height: 100px;
-  }
-
-  .reveal-card{
-    display:block;
-  }
 .no-click{
     pointer-events: none;
 }
