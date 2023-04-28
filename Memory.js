@@ -4,8 +4,11 @@ const canvas = document.querySelector("#gamefield");
 const ctx = canvas.getContext("2d");
 const canvascontainer = document.getElementById("canvas-container");
 
-let listeLegumes = ["courgette", "carotte", "patate", "tomate", "potimarron", "bettrave", "choux", "celeri", "salade", "aubergine", "poivron", "cocombre", "poireau", "asperge", "haricot"];
+let listeLegumes = ["courgette", "carotte", "patate", "tomate", "potimarron", "betterave", "choux", "celeri", "salade", "aubergine", "poivron", "concombre", "poireau", "asperge", "haricot"];
 let listeLegumesJeu = new Array(30);
+let numCase ;
+let pairesImage = [];
+
 
 //lance le jeu
 start.addEventListener('click', startGame);
@@ -40,7 +43,6 @@ function creationPaire() {
     //Parmi une liste de legumes choisit 2 exemplaires de chaque légumes pour former 15 paires
     const listeMelangee = shuffle(listeLegumes.concat(listeLegumes)); // mélanger les éléments du tableau values et concaténer deux fois le tableau mélangé pour obtenir deux occurrences de chaque valeur
     const paires = [];
-    const pairesImage = [];
     // Créer un tableau à deux dimensions de 5 colonnes et 6 lignes
     for (let i = 0; i < 6; i++) {
         paires.push([]);
@@ -48,7 +50,9 @@ function creationPaire() {
         for (let j = 0; j < 5; j++) {
             const legumeAleatoire = listeMelangee[i * 5 + j];
             paires[i].push(legumeAleatoire); // remplit chaque case avec une valeur choisie à partir du tableau listeMelangee
-            pairesImage[i].push(legumeAleatoire+".jpg"); // remplit chaque case avec la valeur de l'image
+            let img = new Image();
+            img.src = "../Img/" + legumeAleatoire + ".jpg";
+            pairesImage[i].push(img); // remplit chaque case avec la valeur de l'image
         }
     }
     console.log(paires); // Afficher le tableau de paires de valeurs générées aléatoirement
@@ -82,6 +86,19 @@ function creationDiv() {
     }
 
 }
+
+canvas.addEventListener('click', function(event) {
+    // Récupérer les coordonnées du clic dans le canvas
+    let x = event.offsetX;
+    let y = event.offsetY;
+
+    // Calculer l'index de la case qui a été cliquée
+    let row = Math.floor(y / cellSize);
+    let col = Math.floor(x / cellSize);
+    ctx.drawImage(pairesImage[row][col], col*cellSize, row*cellSize, cellSize, cellSize);
+    // Faites quelque chose avec la case qui a été cliquée
+    console.log('La case ' + numCase + ' a été cliquée !');
+});
 
 function startGame() {
     start.style.display = 'none';
