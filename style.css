@@ -47,3 +47,6 @@ h1{
   .reveal-card{
     display:block;
   }
+.no-click{
+    pointer-events: none;
+}

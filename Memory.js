@@ -1,5 +1,6 @@
 var start = document.getElementById('Start');
 var restart = document.getElementById('Restart');
+var help = document.getElementById('Help');
 const canvas = document.querySelector("#gamefield");
 const ctx = canvas.getContext("2d");
 const canvascontainer = document.getElementById("canvas-container");
@@ -22,6 +23,9 @@ start.addEventListener('click', startGame);
 restart.addEventListener('click', function () {
     //recharge la page
     location.reload();
+});
+help.addEventListener('click', function () {
+    alert("Le but du jeu est de retrouver les paires de légumes. Pour cela, cliquez sur une case puis sur une autre. Si les deux cases sont identiques, vous avez trouvé une paire. Sinon, les deux cases se retournent et vous devez recommencer. Bonne chance !");
 });
 
 
@@ -102,6 +106,7 @@ function startGame() {
 let save;
 function choixJoueur(){
     if (clic == 2){
+        canvas.classList.add("no-click");
         setTimeout(testChoix, 2000);
     }
 }
@@ -125,5 +130,7 @@ function testChoix(){
     clic = 0;
     firstclick = "";
     secondclick = "";
+    
+    canvas.classList.remove("no-click");
 }
 
