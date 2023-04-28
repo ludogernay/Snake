@@ -4,8 +4,11 @@ const canvas = document.querySelector("#gamefield");
 const ctx = canvas.getContext("2d");
 const canvascontainer = document.getElementById("canvas-container");
 
-let listeLegumes = ["courgette", "carotte", "patate", "tomate", "potimarron", "bettrave", "choux", "celeri", "salade", "aubergine", "poivron", "cocombre", , "poireau", "asperge", "haricot"];
+let listeLegumes = ["courgette", "carotte", "patate", "tomate", "potimarron", "betterave", "choux", "celeri", "salade", "aubergine", "poivron", "concombre", "poireau", "asperge", "haricot"];
 let listeLegumesJeu = new Array(30);
+let numCase ;
+let pairesImage = [];
+
 
 //lance le jeu
 start.addEventListener('click', startGame);
@@ -36,49 +39,71 @@ for (let i = 0; i < rows; i++) {
     }
 }
 
+function creationPaire() {
+    //Parmi une liste de legumes choisit 2 exemplaires de chaque légumes pour former 15 paires
+    const listeMelangee = shuffle(listeLegumes.concat(listeLegumes)); // mélanger les éléments du tableau values et concaténer deux fois le tableau mélangé pour obtenir deux occurrences de chaque valeur
+    const paires = [];
+    // Créer un tableau à deux dimensions de 5 colonnes et 6 lignes
+    for (let i = 0; i < 6; i++) {
+        paires.push([]);
+        pairesImage.push([]);
+        for (let j = 0; j < 5; j++) {
+            const legumeAleatoire = listeMelangee[i * 5 + j];
+            paires[i].push(legumeAleatoire); // remplit chaque case avec une valeur choisie à partir du tableau listeMelangee
+            let img = new Image();
+            img.src = "../Img/" + legumeAleatoire + ".jpg";
+            pairesImage[i].push(img); // remplit chaque case avec la valeur de l'image
+        }
+    }
+    console.log(paires); // Afficher le tableau de paires de valeurs générées aléatoirement
+    console.log(pairesImage); 
+}
+
+// fonction pour mélanger aléatoirement les éléments d'un tableau en utilisant l'algorithme de Fisher-Yates
+function shuffle(tableau) {
+    for (let i = tableau.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [tableau[i], tableau[j]] = [tableau[j], tableau[i]];
+    }
+    return tableau
+}
+
+
+function creationDiv() {
+    //créer une div pour chaque élément du tableau listeLegumesJeu
+    for (let i = 0; i < listeLegumesJeu.length; i++) {
+        let div = document.createElement('div');
+        div.classList.add('hidden-card');
+        div.id = 'div' + i;
+        div.setAttribute('data-legumes', listeLegumesJeu[i]);
+        div.style.position = 'absolute';
+        div.style.left = canvascontainer.offsetLeft + (i * 100) + 'px';
+        div.style.top = canvascontainer.offsetTop + (i * 100) + 'px';
+        div.addEventListener('click', function () {
+            console.log('La div a été cliqué');
+        });
+        document.body.appendChild(div);
+    }
+
+}
+
+canvas.addEventListener('click', function(event) {
+    // Récupérer les coordonnées du clic dans le canvas
+    let x = event.offsetX;
+    let y = event.offsetY;
+
+    // Calculer l'index de la case qui a été cliquée
+    let row = Math.floor(y / cellSize);
+    let col = Math.floor(x / cellSize);
+    ctx.drawImage(pairesImage[row][col], col*cellSize, row*cellSize, cellSize, cellSize);
+    // Faites quelque chose avec la case qui a été cliquée
+    console.log('La case ' + numCase + ' a été cliquée !');
+});
+
 function startGame() {
     start.style.display = 'none';
     creationPaire();
     creationDiv();
-
-
-    function creationPaire() {
-        //Parmi une liste de legumes choisit 2 exemplaires de chaque légumes pour former 15 paires
-        for (let i = 0; i<listeLegumesJeu.length;) {
-            let index = Math.floor(Math.random() * listeLegumes.length); // génére un index aléatoire
-            let legumeAleatoire = listeLegumes[index];
-            let alreadyIn = false;
-            for (j = 0; j < listeLegumesJeu.length; j += 2) {
-                if (legumeAleatoire === listeLegumesJeu[j]) {
-                    alreadyIn = true;
-                }
-            }
-            if (!alreadyIn) {
-                listeLegumesJeu[i] = legumeAleatoire; //Ajoute les valeurs aléatoires aux tableaux de jeu
-                listeLegumesJeu[i + 1] = legumeAleatoire;
-                i += 2;
-            }
-        }
-    }
-
-    function creationDiv(){
-        //créer une div pour chaque élément du tableau listeLegumesJeu
-        for (let i=0; i<listeLegumesJeu.length;i++){
-          let div = document.createElement('div');
-          div.classList.add('hidden-card');
-          div.id = 'div'+i;
-          div.setAttribute('data-legumes',listeLegumesJeu[i]);
-          div.style.position = 'absolute';
-          div.style.left = canvascontainer.offsetLeft + (i*100) + 'px';
-          div.style.top = canvascontainer.offsetTop + (i*100) + 'px';
-          div.addEventListener('click',function(){
-            console.log('La div a été cliqué');
-          });
-          document.body.appendChild(div);
-        }
-
-    }
-
-    console.log(listeLegumesJeu);
+   
 }
 
