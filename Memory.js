@@ -8,6 +8,12 @@ let listeLegumes = ["courgette", "carotte", "patate", "tomate", "potimarron", "b
 let listeLegumesJeu = new Array(30);
 let numCase ;
 let pairesImage = [];
+let paires = [];
+let allSaves = [];
+let clic=0;
+let findPaires=0;
+let firstclick="";
+let secondclick="";
 
 
 //lance le jeu
@@ -42,7 +48,7 @@ for (let i = 0; i < rows; i++) {
 function creationPaire() {
     //Parmi une liste de legumes choisit 2 exemplaires de chaque légumes pour former 15 paires
     const listeMelangee = shuffle(listeLegumes.concat(listeLegumes)); // mélanger les éléments du tableau values et concaténer deux fois le tableau mélangé pour obtenir deux occurrences de chaque valeur
-    const paires = [];
+
     // Créer un tableau à deux dimensions de 5 colonnes et 6 lignes
     for (let i = 0; i < 6; i++) {
         paires.push([]);
@@ -67,26 +73,6 @@ function shuffle(tableau) {
     }
     return tableau
 }
-
-
-function creationDiv() {
-    //créer une div pour chaque élément du tableau listeLegumesJeu
-    for (let i = 0; i < listeLegumesJeu.length; i++) {
-        let div = document.createElement('div');
-        div.classList.add('hidden-card');
-        div.id = 'div' + i;
-        div.setAttribute('data-legumes', listeLegumesJeu[i]);
-        div.style.position = 'absolute';
-        div.style.left = canvascontainer.offsetLeft + (i * 100) + 'px';
-        div.style.top = canvascontainer.offsetTop + (i * 100) + 'px';
-        div.addEventListener('click', function () {
-            console.log('La div a été cliqué');
-        });
-        document.body.appendChild(div);
-    }
-
-}
-
 canvas.addEventListener('click', function(event) {
     // Récupérer les coordonnées du clic dans le canvas
     let x = event.offsetX;
@@ -98,12 +84,46 @@ canvas.addEventListener('click', function(event) {
     ctx.drawImage(pairesImage[row][col], col*cellSize, row*cellSize, cellSize, cellSize);
     // Faites quelque chose avec la case qui a été cliquée
     console.log('La case ' + numCase + ' a été cliquée !');
+    if(firstclick == ""){
+        firstclick = paires[row][col];
+    }else{
+        secondclick = paires[row][col];
+    }
+    clic++;
+    choixJoueur();
 });
 
 function startGame() {
     start.style.display = 'none';
+    const save = ctx.getImageData(0, 0, canvas.width, canvas.height);
+    allSaves.push(save);
     creationPaire();
-    creationDiv();
-   
+}
+let save;
+function choixJoueur(){
+    if (clic == 2){
+        setTimeout(testChoix, 2000);
+    }
+}
+function testChoix(){
+    if(firstclick == secondclick){
+        console.log("trouve");
+        findPaires++;
+        save = ctx.getImageData(0, 0, canvas.width, canvas.height);
+        allSaves.push(save);
+        if(findPaires == 15){
+            alert("Vous avez gagné");
+        }
+    }else if(allSaves.length > 0){
+        console.log("pas trouve");
+        save= allSaves.pop();
+        ctx.putImageData(save, 0, 0);
+    }else{
+        ctx.putImageData(save, 0, 0);
+    }
+    console.log(firstclick,secondclick);
+    clic = 0;
+    firstclick = "";
+    secondclick = "";
 }
 
