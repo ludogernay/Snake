@@ -1,12 +1,11 @@
-var start = document.getElementById('Start');
-var restart = document.getElementById('Restart');
-const canvas = document.querySelector("#gamefield");
-const ctx = canvas.getContext("2d");
+var start = document.getElementById('Start'); //bouton start
+var restart = document.getElementById('Restart'); //bouton restart recharge la page
+const canvas = document.querySelector("#gamefield"); // canvas
+const ctx = canvas.getContext("2d"); // contexte du  canvas
 const canvascontainer = document.getElementById("canvas-container");
 
 let listeLegumes = ["courgette", "carotte", "patate", "tomate", "potimarron", "betterave", "choux", "celeri", "salade", "aubergine", "poivron", "concombre", "poireau", "asperge", "haricot"];
-let listeLegumesJeu = new Array(30);
-let numCase ;
+let listeLegumesJeu = new Array(30); // liste du jeu en cours
 let pairesImage = [];
 let paires = [];
 let allSaves = [];
@@ -31,7 +30,7 @@ const rows = 6; // nombre de lignes
 
 let cols = 5; // nombre de colonnes
 
-canvas.width = cols * cellSize * 2;
+canvas.width = cols * cellSize * 2; // adapte la taile du canvas
 canvas.height = rows * cellSize * 2;
 
 
@@ -47,7 +46,7 @@ for (let i = 0; i < rows; i++) {
 
 function creationPaire() {
     //Parmi une liste de legumes choisit 2 exemplaires de chaque légumes pour former 15 paires
-    const listeMelangee = shuffle(listeLegumes.concat(listeLegumes)); // mélanger les éléments du tableau values et concaténer deux fois le tableau mélangé pour obtenir deux occurrences de chaque valeur
+    const listeMelangee = shuffle(listeLegumes.concat(listeLegumes)); // mélange les éléments du tableau listeLegumes et concaténe deux fois le tableau mélangé pour obtenir deux occurrences de chaque légume
 
     // Créer un tableau à deux dimensions de 5 colonnes et 6 lignes
     for (let i = 0; i < 6; i++) {
@@ -61,7 +60,7 @@ function creationPaire() {
             pairesImage[i].push(img); // remplit chaque case avec la valeur de l'image
         }
     }
-    console.log(paires); // Afficher le tableau de paires de valeurs générées aléatoirement
+    console.log(paires); // Affiche le tableau de paires
     console.log(pairesImage); 
 }
 
@@ -82,8 +81,7 @@ canvas.addEventListener('click', function(event) {
     let row = Math.floor(y / cellSize);
     let col = Math.floor(x / cellSize);
     ctx.drawImage(pairesImage[row][col], col*cellSize, row*cellSize, cellSize, cellSize);
-    // Faites quelque chose avec la case qui a été cliquée
-    console.log('La case ' + numCase + ' a été cliquée !');
+
     if(firstclick == ""){
         firstclick = paires[row][col];
     }else{
@@ -93,28 +91,36 @@ canvas.addEventListener('click', function(event) {
     choixJoueur();
 });
 
-function startGame() {
+//fonction apellé au lancement du jeu (appuie sur Start)
+function startGame() { 
     start.style.display = 'none';
-    const save = ctx.getImageData(0, 0, canvas.width, canvas.height);
-    allSaves.push(save);
-    creationPaire();
+    const save = ctx.getImageData(0, 0, canvas.width, canvas.height); // récupère l'état du canvas
+    allSaves.push(save); // ajoute save dans le tableau allsaves
+    creationPaire(); // création des tableaux
 }
+
 let save;
+
 function choixJoueur(){
+    // si la deuxième image est choisi
     if (clic == 2){
+        // test la combinaison après 2 secondes
         setTimeout(testChoix, 2000);
     }
 }
-function testChoix(){
+
+//Test les choix du joueur
+function testChoix(){ 
     if(firstclick == secondclick){
         console.log("trouve");
-        findPaires++;
-        save = ctx.getImageData(0, 0, canvas.width, canvas.height);
+        findPaires++; 
+        save = ctx.getImageData(0, 0, canvas.width, canvas.height); // enregistre le nouvel etat
         allSaves.push(save);
         if(findPaires == 15){
             alert("Vous avez gagné");
         }
-    }else if(allSaves.length > 0){
+        //si la liste de allsaves est supérieur à 0 reviens à l'etat précédent
+    }else if(allSaves.length > 0){ 
         console.log("pas trouve");
         save= allSaves.pop();
         ctx.putImageData(save, 0, 0);
@@ -122,7 +128,7 @@ function testChoix(){
         ctx.putImageData(save, 0, 0);
     }
     console.log(firstclick,secondclick);
-    clic = 0;
+    clic = 0; //reinitialise
     firstclick = "";
     secondclick = "";
 }
