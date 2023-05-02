@@ -1,6 +1,7 @@
 var start = document.getElementById('Start'); //bouton start
 var restart = document.getElementById('Restart'); //bouton restart recharge la page
 var help = document.getElementById('Help');
+var score = document.querySelector(".score"); //score
 const canvas = document.querySelector("#gamefield"); // canvas
 const ctx = canvas.getContext("2d"); // contexte du  canvas
 const canvascontainer = document.getElementById("canvas-container");
@@ -14,6 +15,7 @@ let findPaires=0;
 let save;
 let firstclick="";
 let secondclick="";
+
 
 
 //lance le jeu
@@ -97,6 +99,7 @@ canvas.addEventListener('click', function(event) {
 //fonction apellé au lancement du jeu (appuie sur Start)
 function startGame() { 
     start.style.display = 'none';
+    score.innerHTML = "Score : " + findPaires + "/15";
     save = ctx.getImageData(0, 0, canvas.width, canvas.height); // récupère l'état du canvas
     creationPaire(); // création des tableaux
 }
@@ -115,6 +118,7 @@ function testChoix(){
     if(firstclick == secondclick){
         console.log("trouve");
         findPaires++; 
+        score.innerHTML = "Score : " + findPaires + "/15";
         save = ctx.getImageData(0, 0, canvas.width, canvas.height); // enregistre le nouvel etat
         ctx.putImageData(save, 0, 0);
         if(findPaires == 15){
