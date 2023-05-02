@@ -1,6 +1,5 @@
 var start = document.getElementById('Start'); //bouton start
 var restart = document.getElementById('Restart'); //bouton restart recharge la page
-var help = document.getElementById('Help'); //bouton help
 const canvas = document.querySelector("#gamefield"); // canvas
 const ctx = canvas.getContext("2d"); // contexte du  canvas
 const canvascontainer = document.getElementById("canvas-container");
@@ -9,9 +8,9 @@ let listeLegumes = ["courgette", "carotte", "patate", "tomate", "potimarron", "b
 let listeLegumesJeu = new Array(30); // liste du jeu en cours
 let pairesImage = [];
 let paires = [];
-let allSaves = [];
 let clic=0;
 let findPaires=0;
+let save;
 let firstclick="";
 let secondclick="";
 
@@ -22,9 +21,6 @@ start.addEventListener('click', startGame);
 restart.addEventListener('click', function () {
     //recharge la page
     location.reload();
-});
-help.addEventListener('click', function () {
-    alert("Le but du jeu est de retrouver les paires de légumes. Pour cela, cliquez sur une case puis sur une autre. Si les deux cases sont identiques, vous avez trouvé une paire. Sinon, les deux cases se retournent et vous devez recommencer. Bonne chance !");
 });
 
 
@@ -98,18 +94,15 @@ canvas.addEventListener('click', function(event) {
 //fonction apellé au lancement du jeu (appuie sur Start)
 function startGame() { 
     start.style.display = 'none';
-    const save = ctx.getImageData(0, 0, canvas.width, canvas.height); // récupère l'état du canvas
-    allSaves.push(save); // ajoute save dans le tableau allsaves
+    save = ctx.getImageData(0, 0, canvas.width, canvas.height); // récupère l'état du canvas
     creationPaire(); // création des tableaux
 }
-
-let save;
 
 function choixJoueur(){
     // si la deuxième image est choisi
     if (clic == 2){
-        // test la combinaison après 2 secondes
         canvas.classList.add("no-click");
+        // test la combinaison après 2 secondes
         setTimeout(testChoix, 2000);
     }
 }
@@ -120,23 +113,21 @@ function testChoix(){
         console.log("trouve");
         findPaires++; 
         save = ctx.getImageData(0, 0, canvas.width, canvas.height); // enregistre le nouvel etat
-        allSaves.push(save);
+        ctx.putImageData(save, 0, 0);
         if(findPaires == 15){
             alert("Vous avez gagné");
         }
         //si la liste de allsaves est supérieur à 0 reviens à l'etat précédent
-    }else if(allSaves.length > 0){ 
+    }else{ 
         console.log("pas trouve");
-        save= allSaves.pop();
-        ctx.putImageData(save, 0, 0);
-    }else{
         ctx.putImageData(save, 0, 0);
     }
     console.log(firstclick,secondclick);
     clic = 0; //reinitialise
     firstclick = "";
     secondclick = "";
-    
     canvas.classList.remove("no-click");
+    
 }
+
 
