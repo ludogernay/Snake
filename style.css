@@ -37,3 +37,7 @@ h1{
     top: 5%;
     left: 30%;
   }
+
+.no-click {
+    pointer-events: none;
+}
